@@ -1,0 +1,71 @@
+# USERS
+
+###
+GET http://localhost:3000/api/users
+
+###
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+    "name":"name",
+    "email":"user@user.com",
+    "password":"password"
+}
+
+###
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+    "email":"user@user.com",
+    "password":"password"
+}
+
+###
+PUT http://localhost:3000/api/users/1
+Content-Type: application/json
+
+{
+    "code":"code1Update3",
+    "description":"code1Update3"
+}
+
+###
+DELETE http://localhost:3000/api/users/3
+
+
+# PRODUCTS
+
+###
+GET http://localhost:3000/api/products
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibmFtZSIsInVzZXJfaWQiOjQsImV4cCI6MTcxNDg4MTgyOCwiaWF0IjoxNzE0ODgxNTI4fQ.0tMU5HEs755EwBYE9VFe-0g2vriIKqs43IMF5wxEwQ0
+
+###
+POST http://localhost:3000/api/products
+Content-Type: application/json
+
+{
+    "code": "product test",
+    "description": "description test",
+    "quantity": 30,
+    "price": 10,
+    "tax": 15,
+    "isActive": true
+}
+
+###
+PUT http://localhost:3000/api/products/43
+Content-Type: application/json
+
+{
+    "code": "product test",
+    "description": "description test",
+    "quantity": 30,
+    "price": 10,
+    "tax": 15,
+    "isActive": true
+}
+
+###
+DELETE http://localhost:3000/api/products/3

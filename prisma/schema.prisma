@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id                Int              @id @default(autoincrement())
+  code              String           @unique @db.VarChar(255)
+  description       String           @db.VarChar(255)
+  quantity          Float
+  price             Decimal          @db.Decimal(16, 4)
+  tax               Float
+  Company           Company?         @relation(fields: [companyId], references: [id])
+  companyId         Int?
+  ProductCategory   ProductCategory? @relation(fields: [productCategoryId], references: [id])
+  productCategoryId Int?
+  isActive          Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model ProductCategory {
+  id          Int       @id @default(autoincrement())
+  code        String    @unique @db.VarChar(255)
+  description String    @db.VarChar(255)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Supplier {
+  id                 Int               @id @default(autoincrement())
+  code               String            @unique @db.VarChar(255)
+  name               String            @db.VarChar(255)
+  Company            Company?          @relation(fields: [companyId], references: [id])
+  companyId          Int?
+  SupplierCategory   SupplierCategory? @relation(fields: [supplierCategoryId], references: [id])
+  supplierCategoryId Int?
+  isActive           Boolean           @default(true)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+}
+
+model SupplierCategory {
+  id          Int        @id @default(autoincrement())
+  code        String     @unique @db.VarChar(255)
+  description String     @db.VarChar(255)
+  suppliers   Supplier[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String?  @db.VarChar(255)
+  email       String   @unique @db.VarChar(255)
+  password    String?  @db.VarChar(255)
+  isActive    Boolean  @default(true)
+  isSuperuser Boolean  @default(false)
+  Company     Company? @relation(fields: [companyId], references: [id])
+  companyId   Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CompanyBranch {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique @db.VarChar(255)
+  name      String   @db.VarChar(255)
+  isActive  Boolean  @default(true)
+  Company   Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Company {
+  id              Int             @id @default(autoincrement())
+  code            String          @unique @db.VarChar(255)
+  name            String          @db.VarChar(255)
+  isActive        Boolean         @default(true)
+  companyBranches CompanyBranch[]
+  users           User[]
+  products        Product[]
+  suppliers       Supplier[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
